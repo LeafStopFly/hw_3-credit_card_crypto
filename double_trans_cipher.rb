@@ -3,7 +3,7 @@ module DoubleTranspositionCipher
     # TODO: FILL THIS IN!
     ## Suggested steps for double transposition cipher
     # 1. find number of rows/cols such that matrix is almost square
-    words = document.split('')
+    words = document.to_s.split('')
     words_num = words.size
     matrix_num = Math.sqrt(words_num).ceil
     (matrix_num**2 - words_num).times { words.push('#') }
@@ -29,17 +29,16 @@ module DoubleTranspositionCipher
     matrix_num = Math.sqrt(words_num).ceil
 
     blocks = words.each_slice(matrix_num).to_a
-
-    rows_d = [*0..blocks.size - 1].unshuffle(random: Random.new(key))
-    columns_d = [*0..blocks[0].size - 1].unshuffle(random: Random.new(key))
+    rows_d = unshuffle([*0..blocks.size - 1], random: Random.new(key))
+    columns_d = unshuffle([*0..blocks[0].size - 1], random: Random.new(key))
 
     columns_d.each_with_index { |c, i| columns_d[i] = blocks.transpose[c] }
     rows_d.each_with_index { |r, i| rows_d[i] = columns_d.transpose[r] }
     rows_d.join.delete('#')
   end
 
-  def unshuffle(random:)
-    transformed_order = (0...length).to_a.shuffle!(random: random)
-    sort_by.with_index { |_, i| transformed_order[i] }
+  def self.unshuffle(length, random:)
+    transformed_order = length.to_a.shuffle!(random: random)
+    length.sort_by { |i| transformed_order[i] }
   end
 end

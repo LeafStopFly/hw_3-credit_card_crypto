@@ -9,7 +9,7 @@ class CreditCard
 
   def initialize(number, expiration_date, owner, credit_network)
     # TODO: initialize the instance variables listed above
-    @number = number 
+    @number = number
     @expiration_date = expiration_date
     @owner = owner
     @credit_network = credit_network

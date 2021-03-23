@@ -42,4 +42,17 @@ describe 'Test card info encryption' do
 
   # TODO: Add tests for double transposition and modern symmetric key ciphers
   #       Can you DRY out the tests using metaprogramming? (see lecture slide)
+  describe 'Using Permutation cipher' do
+    it 'should encrypt card information' do
+      enc = DoubleTranspositionCipher.encrypt(@cc, @key)
+      _(enc).wont_equal @cc.to_s
+      _(enc).wont_be_nil
+    end
+
+    it 'should decrypt text' do
+      enc = DoubleTranspositionCipher.encrypt(@cc, @key)
+      dec = DoubleTranspositionCipher.decrypt(enc, @key)
+      _(dec).must_equal @cc.to_s
+    end
+  end
 end
