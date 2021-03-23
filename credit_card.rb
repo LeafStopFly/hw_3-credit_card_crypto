@@ -28,7 +28,7 @@ class CreditCard
 
   # returns all card information as single string
   def to_s
-    to_json
+    @number + @expiration_date + @owner + @credit_network
   end
 
   # return a new CreditCard object given a serialized (JSON) representation
