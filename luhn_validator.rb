@@ -10,7 +10,7 @@ module LuhnValidator
     sum_even = 0
     number.reverse.chars.each_slice(2) do |char_odd, char_even|
       num_odd = char_even.to_i * 2
-      num_odd >= 10 ? num_odd -= 9 : num_odd 
+      num_odd >= 10 ? num_odd -= 9 : num_odd
       sum_odd += num_odd
       sum_even += char_odd.to_i
     end

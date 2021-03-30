@@ -52,6 +52,5 @@ module SubstitutionCipher
       end
       .join
     end
-
   end
 end
