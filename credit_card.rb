@@ -1,6 +1,9 @@
-require_relative './luhn_validator.rb'
+# frozen_string_literal: true
+
+require_relative './luhn_validator'
 require 'json'
 
+## CreditCard
 class CreditCard
   # TODO: mixin the LuhnValidator using an 'include' statement
   include LuhnValidator
@@ -16,14 +19,14 @@ class CreditCard
   end
 
   # returns json string
-  def to_json
+  def to_json(*options)
     {
       # TODO: setup the hash with all instance vairables to serialize into json
-      "number" => @number,
-      "expiration_date" => @expiration_date,
-      "owner" => @owner,
-      "credit_network" => @credit_network
-    }.to_json
+      'number' => @number,
+      'expiration_date' => @expiration_date,
+      'owner' => @owner,
+      'credit_network' => @credit_network
+    }.to_json(*options)
   end
 
   # returns all card information as single string
