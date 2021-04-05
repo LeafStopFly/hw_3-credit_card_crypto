@@ -11,62 +11,33 @@ describe 'Test card info encryption' do
     @cc = CreditCard.new('4916603231464963', 'Mar-30-2020',
                          'Soumya Ray', 'Visa')
     @key = 3
+    @ciphers = {
+      'Caesar' => SubstitutionCipher::Caesar,
+      'Permutation' => SubstitutionCipher::Permutation,
+      'Double_Transposition' => DoubleTranspositionCipher,
+      'Modern_Symmetric' => ModernSymmetricCipher
+    }
   end
 
-  describe 'Using Caesar cipher' do
-    it 'should encrypt card information' do
-      enc = SubstitutionCipher::Caesar.encrypt(@cc, @key)
-      _(enc).wont_equal @cc.to_s
-      _(enc).wont_be_nil
-    end
-
-    it 'should decrypt text' do
-      enc = SubstitutionCipher::Caesar.encrypt(@cc, @key)
-      dec = SubstitutionCipher::Caesar.decrypt(enc, @key)
-      _(dec).must_equal @cc.to_s
-    end
-  end
-
-  describe 'Using Permutation cipher' do
-    it 'should encrypt card information' do
-      enc = SubstitutionCipher::Permutation.encrypt(@cc, @key)
-      _(enc).wont_equal @cc.to_s
-      _(enc).wont_be_nil
-    end
-
-    it 'should decrypt text' do
-      enc = SubstitutionCipher::Permutation.encrypt(@cc, @key)
-      dec = SubstitutionCipher::Permutation.decrypt(enc, @key)
-      _(dec).must_equal @cc.to_s
+  %w[Caesar Permutation Double_Transposition Modern_Symmetric].each do |method|
+    describe "Using #{method} Cipher" do
+      it 'should encrypt card information' do
+        enc = @ciphers[method].encrypt(@cc, @key)
+        _(enc).wont_equal @cc.to_s
+        _(enc).wont_be_nil
+      end
+      it 'should decrypt card information' do
+        enc = @ciphers[method].encrypt(@cc, @key)
+        dec = @ciphers[method].decrypt(enc, @key)
+        _(dec).must_equal @cc.to_s
+      end
     end
   end
-
-  # TODO: Add tests for double transposition and modern symmetric key ciphers
-  #       Can you DRY out the tests using metaprogramming? (see lecture slide)
-  describe 'Using Permutation cipher' do
-    it 'should encrypt card information' do
-      enc = DoubleTranspositionCipher.encrypt(@cc, @key)
-      _(enc).wont_equal @cc.to_s
-      _(enc).wont_be_nil
-    end
-
-    it 'should decrypt text' do
-      enc = DoubleTranspositionCipher.encrypt(@cc, @key)
-      dec = DoubleTranspositionCipher.decrypt(enc, @key)
-      _(dec).must_equal @cc.to_s
-    end
-  end
-  describe 'Using modern symmetric cipher' do
-    it 'should encrypt card information' do
-      enc = ModernSymmetricCipher.encrypt(@cc)
-      _(enc).wont_equal @cc.to_s
-      _(enc).wont_be_nil
-    end
-
-    it 'should decrypt text' do
-      enc = ModernSymmetricCipher.encrypt(@cc)
-      dec = ModernSymmetricCipher.decrypt(enc)
-      _(dec).must_equal @cc.to_s
+  describe 'generate ModernSymmetricCipher key' do
+    it 'should return a valid key' do
+      key = ModernSymmetricCipher.generate_new_key
+      _(key).wont_be_nil
+      _(key.length).must_equal(32)
     end
   end
 end
