@@ -1,0 +1,13 @@
+---
+AllCops:
+  TargetRubyVersion: 2.5
+  NewCops: enable
+  
+Metrics/BlockLength:
+  Enabled: true
+  Exclude:
+    - spec/**/*
+    - Rakefile
+
+Metrics/AbcSize:
+  Enabled: false

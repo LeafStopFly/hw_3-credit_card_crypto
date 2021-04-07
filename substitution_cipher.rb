@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module SubstitutionCipher
+  # Caesar
   module Caesar
     # Encrypts document using key
     # Arguments:
@@ -24,6 +27,7 @@ module SubstitutionCipher
     end
   end
 
+  # Permutation
   module Permutation
     # Encrypts document using key
     # Arguments:
@@ -33,10 +37,10 @@ module SubstitutionCipher
     def self.encrypt(document, key)
       # TODO: encrypt string using a permutation cipher
       rand_key = (0..127).to_a.shuffle(random: Random.new(key))
-      document.to_s.split('').map do |e|
+      result = document.to_s.split('').map do |e|
         rand_key[e.ord].chr
       end
-      .join
+      result.join
     end
 
     # Decrypts String document using integer key
@@ -47,11 +51,10 @@ module SubstitutionCipher
     def self.decrypt(document, key)
       # TODO: decrypt string using a permutation cipher
       rand_key = (0..127).to_a.shuffle(random: Random.new(key))
-      document.to_s.split('').map do |d|
+      result = document.to_s.split('').map do |d|
         rand_key.index(d.ord).chr
       end
-      .join
+      result.join
     end
-
   end
 end
